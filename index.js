@@ -1,5 +1,3 @@
-'use strict';
-
 const Manager = require('./lib/Manager');
 const inquirer = require('inquirer');
 const path = require('path');
@@ -23,14 +21,14 @@ function teamGen() {
 
     return 'Please enter valid email';
   };
-  // VALIDATE NAME ---------------------------------------------------------------
+  // VALIDATE NAME --------------------------------------------------------------
   const nameCheck = (value) => {
     if (value === '') {
       return 'Name cannot be left empty';
     }
     return true;
   };
-  // VALIDATE ID -----------------------------------------------------------------
+  // VALIDATE NUMBER ------------------------------------------------------------
   const numberCheck = (value) => {
     if (/\d/.test(value)) {
       return true;
@@ -39,12 +37,12 @@ function teamGen() {
     return 'Please enter a number';
   };
 
-  // EXTRA SPACE CORRECTION ------------------------------------------------------
+  // EXTRA SPACE CORRECTION -----------------------------------------------------
   const trimProper = (value) => {
     return value.replace(/\s+/g, '');
   };
 
-  // NAME CORRECTION -------------------------------------------------------------
+  // NAME CORRECTION ------------------------------------------------------------
   const nameProper = (value) => {
     return value
       .split(' ')
@@ -54,7 +52,7 @@ function teamGen() {
       .join(' ');
   };
 
-  // EMAIL CORRECTION ------------------------------------------------------------
+  // EMAIL CORRECTION -----------------------------------------------------------
   const emailProper = (value) => {
     return value.toLowerCase();
   };
