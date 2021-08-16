@@ -1,4 +1,5 @@
 const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
 const inquirer = require('inquirer');
 const path = require('path');
 const fs = require('fs');
@@ -57,7 +58,7 @@ function teamGen() {
     return value.toLowerCase();
   };
 
-  // FUNCTION FOR MANAGER
+  // FUNCTION FOR MANAGER PROMPTS ------------------------------------------------
   const createManager = () => {
     inquirer
       .prompt([
@@ -97,8 +98,46 @@ function teamGen() {
       });
   };
 
-  // TO CHOOSE THE NEXT TEAM MEMBER ------------------------------------------------
-  function nextTeamMember() {
+  // FUNCTION FOR ENGINEER PROMPTS ------------------------------------------------
+  const createEngineer = () => {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'engineerName',
+          message: "Enter Engineer's name?",
+          validate: nameCheck,
+          filter: nameProper,
+        },
+        {
+          type: 'input',
+          name: 'engineerId',
+          message: "Enter Engineer's id?",
+          validate: numberCheck,
+          filter: trimProper,
+        },
+        {
+          type: 'input',
+          name: 'engineerEmail',
+          message: "Enter Engineer's email?",
+          validate: emailCheck,
+          filter: emailProper,
+        },
+        {
+          type: 'input',
+          name: 'engineerGithub',
+          message: "Enter Engineer's Github Username?",
+        },
+      ])
+      .then((response) => {
+        const engineer = new Engineer(response.engineerName, response.engineerId, response.engineerEmail, response.engineerGithub);
+        teamArray.push(engineer);
+        nextTeamMember();
+      });
+  };
+
+  // TO CHOOSE THE NEXT TEAM MEMBER OR BUILD TEAM ---------------------------------
+  const nextTeamMember = () => {
     inquirer
       .prompt([
         {
@@ -110,16 +149,19 @@ function teamGen() {
       ])
       .then((response) => {
         switch (response.memberChoose) {
-          case 'Manager':
-            createManager();
+          case 'Engineer':
+            createEngineer();
+            break;
+          case 'Intern':
+            createIntern();
             break;
           default:
             buildTeam();
         }
       });
-  }
+  };
 
-  // TO SEND RESPONSE TO THE TEMPLATE FILE TO GENERATE HTML ---------------------------------------
+  // TO SEND RESPONSE TO THE TEMPLATE FILE TO GENERATE HTML ---------------------------
   const buildTeam = () => {
     fs.writeFileSync(filePath, generate(teamArray));
   };

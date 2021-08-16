@@ -1,31 +1,88 @@
 'use strict';
 
-const generateManager = (data) => {
-  const teamManager = data[0];
+// ----------------------------------------------------------------------------------
+// MANAGER
+// ----------------------------------------------------------------------------------
+const generateManager = (teamManager) => {
   return `
-                <div class="card-content">
-                <div class="media">
-                    <div class="media-content has-text-left">
-                      <p class="title is-3 no-padding">${teamManager.getName()}</p>
-                      <div class="level">
-                        <p class="title is-4 level-item level-left"><ion-icon name="cafe-outline" class="icon is-medium pr-3"></ion-icon> ${teamManager.getRole()}</p>
+                <div class="column is-4">
+                  <div class="card large">
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="media-content has-text-left">
+                          <p class="title is-3 no-padding">${teamManager.getName()}</p>
+                          <div class="level">
+                            <p class="title is-4 level-item level-left"><ion-icon name="cafe-outline" class="icon is-medium pr-3"></ion-icon> ${teamManager.getRole()}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="media">
+                        <div class="media-content">
+                          <p class="title is-6 no-padding">ID: ${teamManager.getId()}</p>
+                          <p>
+                            <span class="title is-6"> Email:<a href="mailto:${teamManager.getEmail()}"> ${teamManager.getEmail()} </a></span>
+                          </p>
+                          <p class="title is-6 mt-5">Office Number: ${teamManager.getOfficeNumber()}</p>
+                        </div>
                       </div>
                     </div>
-                </div>
-                <div class="media">
-                    <div class="media-content">
-                    <p class="title is-6 no-padding">ID: ${teamManager.getId()}</p>
-                    <p>
-                        <span class="title is-6"> Email:<a href="mailto:${teamManager.getEmail()}"> ${teamManager.getEmail()} </a></span>
-                    </p>
-                    <p class="title is-6 mt-5">Office Number: ${teamManager.getOfficeNumber()}</p>
-                    </div>
-                </div>
+                  </div>
                 </div>
         `;
 };
 
-module.exports = (team) => {
+// ----------------------------------------------------------------------------------
+// ENGINEER
+// ----------------------------------------------------------------------------------
+
+const generateEngineer = (teamEngineer) => {
+  return `
+                <div class="column is-4">
+                  <div class="card large">
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="media-content has-text-left">
+                          <p class="title is-3 no-padding">${teamEngineer.getName()}</p>
+                          <div class="level">
+                            <p class="title is-4 level-item level-left"><ion-icon name="cart-outline" class="icon is-medium pr-3"></ion-icon> ${teamEngineer.getRole()}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="media">
+                        <div class="media-content">
+                          <p class="title is-6 no-padding">ID: ${teamEngineer.getId()}</p>
+                          <p>
+                            <span class="title is-6"> Email:<a href="mailto:${teamEngineer.getEmail()}"> ${teamEngineer.getEmail()} </a></span>
+                          </p>
+                          <p class="title is-6 mt-5">Github: ${teamEngineer.getGithub()}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        `;
+};
+
+// SUMMARY --------------------------------------------------------------------------
+// Function to loop over the data responses and check which team member is being added.
+// Then added the data to the joinProfiles array
+// Then join the array elements into one string
+// ----------------------------------------------------------------------------------
+function teamProfile(profiles) {
+  const joinProfiles = [];
+
+  profiles.forEach(function (v, i, r) {
+    joinProfiles.push(profiles[i].getRole() === 'Manager' ? generateManager(profiles[Number(i)]) : '');
+    joinProfiles.push(profiles[i].getRole() === 'Engineer' ? generateEngineer(profiles[Number(i)]) : '');
+  });
+
+  return joinProfiles.join('');
+}
+
+// ----------------------------------------------------------------------------------
+// FINAL HTML OUTPUT
+// ----------------------------------------------------------------------------------
+module.exports = (data) => {
   return `
   <!DOCTYPE html>
   <html lang="en" class="has-background-light">
@@ -48,11 +105,7 @@ module.exports = (team) => {
             </div>
           </div>
           <div id="app" class="row columns is-multiline is-centered is-vcentered">
-            <div v-for="card in cardData" key="card.id" class="column is-4">
-              <div class="card large">
-                ${generateManager(team)}
-              </div>
-            </div>
+                ${teamProfile(data)}
           </div>
         </div>
       </div>
