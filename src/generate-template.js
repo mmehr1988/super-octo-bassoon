@@ -54,7 +54,39 @@ const generateEngineer = (teamEngineer) => {
                           <p>
                             <span class="title is-6"> Email:<a href="mailto:${teamEngineer.getEmail()}"> ${teamEngineer.getEmail()} </a></span>
                           </p>
-                          <p class="title is-6 mt-5">Github: ${teamEngineer.getGithub()}</p>
+                          <p class="title is-6 mt-5">Github: <a href="https://github.com/${teamEngineer.getGithub()}">${teamEngineer.getGithub()}</a></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        `;
+};
+
+// ----------------------------------------------------------------------------------
+// INTERN
+// ----------------------------------------------------------------------------------
+
+const generateIntern = (teamIntern) => {
+  return `
+                <div class="column is-4">
+                  <div class="card large">
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="media-content has-text-left">
+                          <p class="title is-3 no-padding">${teamIntern.getName()}</p>
+                          <div class="level">
+                            <p class="title is-4 level-item level-left"><ion-icon name="school-outline" class="icon is-medium pr-3"></ion-icon> ${teamIntern.getRole()}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="media">
+                        <div class="media-content">
+                          <p class="title is-6 no-padding">ID: ${teamIntern.getId()}</p>
+                          <p>
+                            <span class="title is-6"> Email:<a href="mailto:${teamIntern.getEmail()}"> ${teamIntern.getEmail()} </a></span>
+                          </p>
+                          <p class="title is-6 mt-5">School: ${teamIntern.getSchool()}</p>
                         </div>
                       </div>
                     </div>
@@ -65,15 +97,27 @@ const generateEngineer = (teamEngineer) => {
 
 // SUMMARY --------------------------------------------------------------------------
 // Function to loop over the data responses and check which team member is being added.
+// If intern is entered prior to engineer, the intern position will be moved to last
 // Then added the data to the joinProfiles array
 // Then join the array elements into one string
 // ----------------------------------------------------------------------------------
+
 function teamProfile(profiles) {
   const joinProfiles = [];
+  const profileLength = profiles.length;
+
+  for (let i = 0; i < profileLength; i++) {
+    if (profiles[i].getRole() === 'Intern' && i + 1 !== profileLength) {
+      var internProfile = profiles[i];
+      profiles.splice(profiles.indexOf(internProfile), 1);
+      profiles.push(internProfile);
+    }
+  }
 
   profiles.forEach(function (v, i, r) {
     joinProfiles.push(profiles[i].getRole() === 'Manager' ? generateManager(profiles[Number(i)]) : '');
     joinProfiles.push(profiles[i].getRole() === 'Engineer' ? generateEngineer(profiles[Number(i)]) : '');
+    joinProfiles.push(profiles[i].getRole() === 'Intern' ? generateIntern(profiles[Number(i)]) : '');
   });
 
   return joinProfiles.join('');

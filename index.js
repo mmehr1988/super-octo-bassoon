@@ -1,5 +1,6 @@
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
 const inquirer = require('inquirer');
 const path = require('path');
 const fs = require('fs');
@@ -29,6 +30,7 @@ function teamGen() {
     }
     return true;
   };
+
   // VALIDATE NUMBER ------------------------------------------------------------
   const numberCheck = (value) => {
     if (/\d/.test(value)) {
@@ -65,28 +67,28 @@ function teamGen() {
         {
           type: 'input',
           name: 'managerName',
-          message: "Enter Manager's name?",
+          message: "Enter manager's name?",
           validate: nameCheck,
           filter: nameProper,
         },
         {
           type: 'input',
           name: 'managerId',
-          message: "Enter Manager's id?",
+          message: "Enter manager's id?",
           validate: numberCheck,
           filter: trimProper,
         },
         {
           type: 'input',
           name: 'managerEmail',
-          message: "Enter Manager's email?",
+          message: "Enter manager's email?",
           validate: emailCheck,
           filter: emailProper,
         },
         {
           type: 'input',
           name: 'managerOfficeNumber',
-          message: "Enter Manager's office number?",
+          message: "Enter manager's office number?",
           validate: numberCheck,
           filter: trimProper,
         },
@@ -105,33 +107,71 @@ function teamGen() {
         {
           type: 'input',
           name: 'engineerName',
-          message: "Enter Engineer's name?",
+          message: "Enter engineer's name?",
           validate: nameCheck,
           filter: nameProper,
         },
         {
           type: 'input',
           name: 'engineerId',
-          message: "Enter Engineer's id?",
+          message: "Enter engineer's id?",
           validate: numberCheck,
           filter: trimProper,
         },
         {
           type: 'input',
           name: 'engineerEmail',
-          message: "Enter Engineer's email?",
+          message: "Enter engineer's email?",
           validate: emailCheck,
           filter: emailProper,
         },
         {
           type: 'input',
           name: 'engineerGithub',
-          message: "Enter Engineer's Github Username?",
+          message: "Enter engineer's Github username?",
         },
       ])
       .then((response) => {
         const engineer = new Engineer(response.engineerName, response.engineerId, response.engineerEmail, response.engineerGithub);
         teamArray.push(engineer);
+        nextTeamMember();
+      });
+  };
+
+  // FUNCTION FOR INTERN PROMPTS ------------------------------------------------
+  const createIntern = () => {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'internName',
+          message: "Enter intern's name?",
+          validate: nameCheck,
+          filter: nameProper,
+        },
+        {
+          type: 'input',
+          name: 'internId',
+          message: "Enter intern's id?",
+          validate: numberCheck,
+          filter: trimProper,
+        },
+        {
+          type: 'input',
+          name: 'internEmail',
+          message: "Enter intern's email?",
+          validate: emailCheck,
+          filter: emailProper,
+        },
+        {
+          type: 'input',
+          name: 'internSchool',
+          message: "Enter intern's school?",
+        },
+      ])
+      .then((response) => {
+        const intern = new Intern(response.internName, response.internId, response.internEmail, response.internSchool);
+        teamArray.push(intern);
         nextTeamMember();
       });
   };
