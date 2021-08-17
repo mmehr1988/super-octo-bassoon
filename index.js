@@ -61,6 +61,7 @@ function teamGen() {
   };
 
   // FUNCTION FOR MANAGER PROMPTS ------------------------------------------------
+
   const createManager = () => {
     inquirer
       .prompt([
@@ -97,6 +98,13 @@ function teamGen() {
         const manager = new Manager(response.managerName, response.managerId, response.managerEmail, response.managerOfficeNumber);
         teamArray.push(manager);
         nextTeamMember();
+      })
+      .catch((error) => {
+        if (error.isTtyError) {
+          console.log("Prompt couldn't be rendered in the current environment");
+        } else {
+          console.log('Something else went wrong');
+        }
       });
   };
 
@@ -135,6 +143,13 @@ function teamGen() {
         const engineer = new Engineer(response.engineerName, response.engineerId, response.engineerEmail, response.engineerGithub);
         teamArray.push(engineer);
         nextTeamMember();
+      })
+      .catch((error) => {
+        if (error.isTtyError) {
+          console.log("Prompt couldn't be rendered in the current environment");
+        } else {
+          console.log('Something else went wrong');
+        }
       });
   };
 
@@ -173,6 +188,13 @@ function teamGen() {
         const intern = new Intern(response.internName, response.internId, response.internEmail, response.internSchool);
         teamArray.push(intern);
         nextTeamMember();
+      })
+      .catch((error) => {
+        if (error.isTtyError) {
+          console.log("Prompt couldn't be rendered in the current environment");
+        } else {
+          console.log('Something else went wrong');
+        }
       });
   };
 
