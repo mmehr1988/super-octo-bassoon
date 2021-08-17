@@ -24,9 +24,9 @@ function teamGen() {
     return 'Please enter valid email';
   };
   // VALIDATE NAME --------------------------------------------------------------
-  const nameCheck = (value) => {
+  const emptyCheck = (value) => {
     if (value === '') {
-      return 'Name cannot be left empty';
+      return 'Answer cannot be left empty';
     }
     return true;
   };
@@ -69,7 +69,7 @@ function teamGen() {
           type: 'input',
           name: 'managerName',
           message: "Enter manager's name?",
-          validate: nameCheck,
+          validate: emptyCheck,
           filter: nameProper,
         },
         {
@@ -116,7 +116,7 @@ function teamGen() {
           type: 'input',
           name: 'engineerName',
           message: "Enter engineer's name?",
-          validate: nameCheck,
+          validate: emptyCheck,
           filter: nameProper,
         },
         {
@@ -137,6 +137,7 @@ function teamGen() {
           type: 'input',
           name: 'engineerGithub',
           message: "Enter engineer's Github username?",
+          validate: emptyCheck,
         },
       ])
       .then((response) => {
@@ -161,7 +162,7 @@ function teamGen() {
           type: 'input',
           name: 'internName',
           message: "Enter intern's name?",
-          validate: nameCheck,
+          validate: emptyCheck,
           filter: nameProper,
         },
         {
@@ -182,6 +183,7 @@ function teamGen() {
           type: 'input',
           name: 'internSchool',
           message: "Enter intern's school?",
+          validate: emptyCheck,
         },
       ])
       .then((response) => {
