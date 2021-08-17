@@ -7,7 +7,7 @@ const path = require('path');
 const fs = require('fs');
 
 // FILE PATH: QUESTIONS
-const questions = require('./lib/Questions.js');
+const { masterQuestions } = require('./lib/Questions.js');
 
 // FILE PATH: EMPLOYEE CLASSES
 const Manager = require('./lib/Manager');
@@ -31,7 +31,7 @@ function teamGen() {
   // FUNCTION FOR MANAGER PROMPTS -------------------------------------------------
   const createManager = () => {
     inquirer
-      .prompt(questions.manager)
+      .prompt(masterQuestions.manager)
       .then((response) => {
         const manager = new Manager(response.managerName, response.managerId, response.managerEmail, response.managerOfficeNumber);
         teamArray.push(manager);
@@ -48,7 +48,7 @@ function teamGen() {
   // FUNCTION FOR ENGINEER PROMPTS ------------------------------------------------
   const createEngineer = () => {
     inquirer
-      .prompt(questions.engineer)
+      .prompt(masterQuestions.engineer)
       .then((response) => {
         const engineer = new Engineer(response.engineerName, response.engineerId, response.engineerEmail, response.engineerGithub);
         teamArray.push(engineer);
@@ -65,7 +65,7 @@ function teamGen() {
   // FUNCTION FOR INTERN PROMPTS --------------------------------------------------
   const createIntern = () => {
     inquirer
-      .prompt(questions.intern)
+      .prompt(masterQuestions.intern)
       .then((response) => {
         const intern = new Intern(response.internName, response.internId, response.internEmail, response.internSchool);
         teamArray.push(intern);
