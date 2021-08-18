@@ -8,6 +8,7 @@ const fs = require('fs');
 
 // FILE PATH: QUESTIONS
 const { masterQuestions } = require('./lib/Questions.js');
+const { idArray } = require('./lib/Validate.js');
 
 // FILE PATH: EMPLOYEE CLASSES
 const Manager = require('./lib/Manager');
@@ -35,6 +36,7 @@ function teamGen() {
       .then((response) => {
         const manager = new Manager(response.managerName, response.managerId, response.managerEmail, response.managerOfficeNumber);
         teamArray.push(manager);
+        idArray.push(response.managerId);
         nextTeamMember();
       })
       .catch((error) => {
@@ -45,6 +47,7 @@ function teamGen() {
         }
       });
   };
+
   // FUNCTION FOR ENGINEER PROMPTS ------------------------------------------------
   const createEngineer = () => {
     inquirer
@@ -52,6 +55,7 @@ function teamGen() {
       .then((response) => {
         const engineer = new Engineer(response.engineerName, response.engineerId, response.engineerEmail, response.engineerGithub);
         teamArray.push(engineer);
+        idArray.push(response.engineerId);
         nextTeamMember();
       })
       .catch((error) => {
@@ -69,6 +73,7 @@ function teamGen() {
       .then((response) => {
         const intern = new Intern(response.internName, response.internId, response.internEmail, response.internSchool);
         teamArray.push(intern);
+        idArray.push(response.internId);
         nextTeamMember();
       })
       .catch((error) => {
