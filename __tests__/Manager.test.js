@@ -14,7 +14,7 @@ describe('getName', () => {
     expect(manager.getName()).toBe(name);
   });
 
-  it('When first letter of name is entered, make it upper case', () => {
+  it('When first letter of name is entered as lowercase, make it upper case', () => {
     const name = 'mehdi';
     const manager = new Manager(name, 1, 'tatash.my@gmail.com', 1);
     expect(manager.getName()).toBe('Mehdi');
