@@ -1,5 +1,5 @@
 # super-octo-bassoon
 
-# Image Of Final Assignment
+# GIF Of Final Assignment
 
-![alt text](./img/Team-Profile-Generator.png)
+![alt text](./gif/Team-Generator-GIF.gif)
