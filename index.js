@@ -8,6 +8,8 @@ const fs = require('fs');
 
 // FILE PATH: QUESTIONS
 const { masterQuestions } = require('./lib/Questions.js');
+
+// FILE PATH: VALIDATE
 const { idArray } = require('./lib/Validate.js');
 
 // FILE PATH: EMPLOYEE CLASSES
