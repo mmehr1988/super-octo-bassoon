@@ -13,6 +13,7 @@
 1. [Video](#video)
 1. [Contributing](#contributing)
 1. [Tests](#tests)
+1. [Other](#other)
 1. [License](#license)
 1. [Questions](#questions)
 
@@ -93,6 +94,30 @@ Testing for this app is done through the use of the npm package Jest. There are 
 ```bash
 npm run test
 ```
+
+## Other
+
+The below is a list of validations created for prompt messages.
+
+1. emptyCheck: Cannot submit an empty response.
+1. emailCheck: Email accounts follow a specific structure. The check is done by validating the user input vs a regex expression. The below is a list of rules applied. For more information please check out the following [link](https://www.w3resource.com/javascript/form/email-validation.php).
+
+   - Checks whether @ is included
+   - Check whether there are any characters before @
+   - Accepts: Characters, Numbers, Underscores, and Dash
+   - Double dots "." are not allowed
+
+1. idCheck: Duplicate submissions are not allowed.
+1. officerCheck:
+
+   - Only numbers accepted between 0 and 1000
+   - Cannot include spaces
+
+1. gitCheck: After researching github username rules.
+
+   - Cannot begin with a hyphen
+   - Cannot include double hyphens
+   - Max character length = 39
 
 ## License
 

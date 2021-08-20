@@ -28,94 +28,78 @@ const filePath = path.join(folderPath, filename);
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 
+// To hold all the object classes
 const teamArray = [];
 
-function teamGen() {
-  // FUNCTION FOR MANAGER PROMPTS -------------------------------------------------
-  const createManager = () => {
-    inquirer
-      .prompt(masterQuestions.manager)
-      .then((response) => {
-        const manager = new Manager(response.managerName, response.managerId, response.managerEmail, response.managerOfficeNumber);
-        teamArray.push(manager);
-        idArray.push(response.managerId);
-        nextTeamMember();
-      })
-      .catch((error) => {
-        if (error.isTtyError) {
-          console.log("Prompt couldn't be rendered in the current environment");
-        } else {
-          console.log('Something else went wrong');
-        }
-      });
-  };
+// MANAGER --------------------------------------------------------------
+async function createManager() {
+  const rManager = await inquirer.prompt(masterQuestions.manager);
+  const manager = new Manager(rManager.managerName, rManager.managerId, rManager.managerEmail, rManager.managerOfficeNumber);
 
-  // FUNCTION FOR ENGINEER PROMPTS ------------------------------------------------
-  const createEngineer = () => {
-    inquirer
-      .prompt(masterQuestions.engineer)
-      .then((response) => {
-        const engineer = new Engineer(response.engineerName, response.engineerId, response.engineerEmail, response.engineerGithub);
-        teamArray.push(engineer);
-        idArray.push(response.engineerId);
-        nextTeamMember();
-      })
-      .catch((error) => {
-        if (error.isTtyError) {
-          console.log("Prompt couldn't be rendered in the current environment");
-        } else {
-          console.log('Something else went wrong');
-        }
-      });
-  };
-  // FUNCTION FOR INTERN PROMPTS --------------------------------------------------
-  const createIntern = () => {
-    inquirer
-      .prompt(masterQuestions.intern)
-      .then((response) => {
-        const intern = new Intern(response.internName, response.internId, response.internEmail, response.internSchool);
-        teamArray.push(intern);
-        idArray.push(response.internId);
-        nextTeamMember();
-      })
-      .catch((error) => {
-        if (error.isTtyError) {
-          console.log("Prompt couldn't be rendered in the current environment");
-        } else {
-          console.log('Something else went wrong');
-        }
-      });
-  };
-  // TO CHOOSE THE NEXT TEAM MEMBER OR BUILD TEAM ---------------------------------
-  const nextTeamMember = () => {
-    inquirer
-      .prompt([
-        {
-          type: 'list',
-          name: 'memberChoose',
-          message: 'Choose team member to add?',
-          choices: ['Engineer', 'Intern', 'Team Complete'],
-        },
-      ])
-      .then((response) => {
-        switch (response.memberChoose) {
-          case 'Engineer':
-            createEngineer();
-            break;
-          case 'Intern':
-            createIntern();
-            break;
-          default:
-            buildTeam();
-        }
-      });
-  };
-  // TO SEND RESPONSE TO THE TEMPLATE FILE TO GENERATE HTML -----------------------
-  const buildTeam = () => {
-    fs.writeFileSync(filePath, generate(teamArray));
-  };
-
-  createManager();
+  teamArray.push(manager);
+  idArray.push(manager.getId());
+  console.log(`Successfully added manager: ${manager.getName()}`);
 }
 
+// NEXT TO DO -----------------------------------------------------------
+// Function to prompt user of whether they would like to add team members to finalize the team build profile
+async function confirmTeam() {
+  const confirmNext = await inquirer.prompt(masterQuestions.employeeConfirm);
+
+  switch (confirmNext.memberChoose) {
+    case 'Engineer':
+      await createEngineer();
+      break;
+    case 'Intern':
+      await createIntern();
+      break;
+    default:
+      setTimeout(function finalMessage() {
+        console.log('Team Profile Build Complete');
+      }, 1000);
+  }
+}
+
+// ENGINEER -------------------------------------------------------------
+// function to prompt user the questions related to building an engineer profile
+async function createEngineer() {
+  const rEngineer = await inquirer.prompt(masterQuestions.engineer);
+  const engineer = new Engineer(rEngineer.engineerName, rEngineer.engineerId, rEngineer.engineerEmail, rEngineer.engineerGithub);
+
+  teamArray.push(engineer);
+  idArray.push(engineer.getId());
+  console.log(`Successfully added engineer: ${engineer.getName()}`);
+  await confirmTeam();
+}
+
+// INTERN ---------------------------------------------------------------
+// function to prompt user the questions related to building an intern profile
+async function createIntern() {
+  const rIntern = await inquirer.prompt(masterQuestions.intern);
+  const intern = new Intern(rIntern.internName, rIntern.internId, rIntern.internEmail, rIntern.internSchool);
+  teamArray.push(intern);
+  idArray.push(intern.getId());
+  console.log(`Successfully added intern: ${intern.getName()}`);
+  await confirmTeam();
+}
+
+// GENERATE TEAM ---------------------------------------------------------------
+// This function will wait until user confirms to build team
+// then it will gather the object classes in the team array
+// push the data to the generate-template folder
+// which then formats the data for html output.
+async function teamGen() {
+  try {
+    await createManager();
+    await confirmTeam();
+  } catch (error) {
+    console.log(error);
+  }
+
+  try {
+    fs.writeFileSync(filePath, generate(teamArray));
+  } catch (error) {
+    console.log(error);
+  }
+}
 teamGen();

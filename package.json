@@ -1,9 +1,10 @@
 {
   "name": "super-octo-bassoon",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Project Title: Team Profile Generator",
   "main": "index.js",
   "directories": {
+    "example": "example",
     "lib": "lib"
   },
   "scripts": {
