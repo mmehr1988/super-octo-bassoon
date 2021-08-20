@@ -13,7 +13,7 @@
 1. [Video](#video)
 1. [Contributing](#contributing)
 1. [Tests](#tests)
-1. [Other](#other)
+1. [Validation](#validation)
 1. [License](#license)
 1. [Questions](#questions)
 
@@ -95,7 +95,7 @@ Testing for this app is done through the use of the npm package Jest. There are 
 npm run test
 ```
 
-## Other
+## Validation
 
 The below is a list of validations created for prompt messages.
 
@@ -104,11 +104,11 @@ The below is a list of validations created for prompt messages.
 
    - Checks whether @ is included
    - Check whether there are any characters before @
-   - Accepts: Characters, Numbers, Underscores, and Dash
+   - Accepts: Characters, Numbers, Underscores, and Hyphens
    - Double dots "." are not allowed
 
 1. idCheck: Duplicate submissions are not allowed.
-1. officerCheck:
+1. officeCheck:
 
    - Only numbers accepted between 0 and 1000
    - Cannot include spaces
